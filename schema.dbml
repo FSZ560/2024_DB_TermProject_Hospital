@@ -58,6 +58,7 @@ Table medical_certificate {
 // 掛號資訊表
 Table appointment {
   appointment_id char(7) [pk]
+  sequence_no integer [increment]
   clinic_id char(7) [not null, ref: - clinic.clinic_id]
   patient_id char(7) [not null, ref: - patient.person_id]
   register_time datetime [not null]

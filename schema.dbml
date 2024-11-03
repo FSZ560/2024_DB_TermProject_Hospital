@@ -1,0 +1,64 @@
+// 人類資料表
+Table person {
+  person_id char(7) [pk]
+  last_name varchar(20) [not null]
+  first_name varchar(20) [not null]
+  phone varchar(20) [not null]
+  id_card char(10) [not null]
+  address varchar(100) [not null]
+  gender char(1) [not null]
+  birthday date [not null]
+}
+
+// 科別資料表
+Table department {
+  department_id char(7) [pk]
+  department_name varchar(50) [not null]
+}
+
+// 病患資料表
+Table patient {
+  person_id char(7) [pk, ref: - person.person_id]
+  height decimal(5,2) [not null]
+  weight decimal(5,2) [not null]
+}
+
+// 員工資料表
+Table staff {
+  person_id char(7) [pk, ref: - person.person_id]
+  department_id char(7) [not null, ref: - department.department_id]
+  status varchar(50) [not null]
+  salary int [not null]
+}
+
+// 門診資料表
+Table clinic {
+  clinic_id char(7) [pk]
+  clinic_date date [not null]
+  period enum('morning','afternoon','evening') [not null]
+  department_id char(7) [not null, ref: - department.department_id]
+  location varchar(100) [not null]
+  doctor_id char(7) [not null, ref: - staff.person_id]
+}
+
+// 病人門診紀錄表
+Table medical_records {
+  records_id char(7) [pk]
+  patient_id char(7) [not null, ref: - patient.person_id]
+  clinic_id char(7) [not null, ref: - clinic.clinic_id]
+}
+
+// 診斷書資料表
+Table medical_certificate {
+  certificate_id char(7) [pk]
+  records_id char(7) [not null, unique, ref: - medical_records.records_id]
+  prescription text [not null]
+}
+
+// 掛號資訊表
+Table appointment {
+  appointment_id char(7) [pk]
+  clinic_id char(7) [not null, ref: - clinic.clinic_id]
+  patient_id char(7) [not null, ref: - patient.person_id]
+  register_time datetime [not null]
+}

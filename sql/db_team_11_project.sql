@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-07 16:45:08
+-- 產生時間： 2024-12-12 17:43:33
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -130,6 +130,7 @@ CREATE TABLE `person` (
   `last_name` varchar(20) NOT NULL,
   `first_name` varchar(20) NOT NULL,
   `id_card` char(10) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `gender` enum('M','F') DEFAULT NULL,
@@ -140,9 +141,9 @@ CREATE TABLE `person` (
 -- 傾印資料表的資料 `person`
 --
 
-INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `phone`, `address`, `gender`, `birthday`) VALUES
-('PE00001', '長崎', '爽世', 'A123456789', '0912345678', NULL, 'F', '2008-05-27'),
-('PE00002', '千早', '愛音', 'A164551397', NULL, NULL, 'F', '2008-09-08');
+INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `password`, `phone`, `address`, `gender`, `birthday`) VALUES
+('PE00001', '長崎', '爽世', 'A123456789', '$2y$10$Apireq70AEaRDn9VU0DQeeReyMGOo18a1zdB.4G0BG9hJky1BwQJ.', '0912345678', NULL, 'F', '2008-05-27'),
+('PE00002', '千早', '愛音', 'A164551397', '$2y$10$kBxgnAJd62vP.w1LC.XtreeKm14KSxhFqF197SgIX7BZG8wXBR1by', NULL, NULL, 'F', '2008-09-08');
 
 -- --------------------------------------------------------
 

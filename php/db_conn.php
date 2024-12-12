@@ -14,11 +14,6 @@
 
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
-        echo "DB Connection Success";
-        echo "<br>";
-        date_default_timezone_set('Asia/Taipei');
-        echo "now time is " . date("Y-m-d H:i:s");
     } catch (PDOException $e) {
         print "===== ERROR ===== " . $e->getMessage();
         die();

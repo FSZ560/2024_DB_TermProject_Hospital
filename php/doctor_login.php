@@ -61,6 +61,15 @@
             background-color: #e68a00;
         }
 
+        .login-container button.home-btn {
+            margin-top: 10px;
+            background-color: #666;
+        }
+
+        .login-container button.home-btn:hover {
+            background-color: #555;
+        }
+
         .error-message {
             color: #ff0000;
             background-color: #ffe6e6;
@@ -99,6 +108,10 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit">登入</button>
+        </form>
+        
+        <form action="mainpage.php">
+            <button type="submit" class="home-btn">返回首頁</button>
         </form>
     </div>
 

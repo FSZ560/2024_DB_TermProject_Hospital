@@ -26,3 +26,7 @@ try {
     echo "系統錯誤，請稍後再試";
 }
 ?>
+
+<form action="logout.php" method="post">
+    <button type="submit">登出</button>
+</form>

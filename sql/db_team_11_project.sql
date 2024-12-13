@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-12 17:43:33
+-- 產生時間： 2024-12-13 17:18:05
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -117,7 +117,8 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`person_id`, `height`, `weight`) VALUES
-('PE00001', 162.00, 50.00);
+('PE00001', 162.00, 50.00),
+('PE00003', 155.00, 50.00);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,8 @@ CREATE TABLE `person` (
 
 INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `password`, `phone`, `address`, `gender`, `birthday`) VALUES
 ('PE00001', '長崎', '爽世', 'A123456789', '$2y$10$Apireq70AEaRDn9VU0DQeeReyMGOo18a1zdB.4G0BG9hJky1BwQJ.', '0912345678', NULL, 'F', '2008-05-27'),
-('PE00002', '千早', '愛音', 'A164551397', '$2y$10$kBxgnAJd62vP.w1LC.XtreeKm14KSxhFqF197SgIX7BZG8wXBR1by', NULL, NULL, 'F', '2008-09-08');
+('PE00002', '千早', '愛音', 'A164551397', '$2y$10$kBxgnAJd62vP.w1LC.XtreeKm14KSxhFqF197SgIX7BZG8wXBR1by', NULL, NULL, 'F', '2008-09-08'),
+('PE00003', '高松', '燈', 'B123456789', '$2y$10$c8wqkwXMvzxOAUCbZ6pau.9fFSzulxqOyqgsZEIdfnSnKCS5qslFK', '0958146890', '桃園市中壢區春德路105號', 'F', '2008-11-22');
 
 -- --------------------------------------------------------
 

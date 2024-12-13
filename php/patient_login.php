@@ -61,8 +61,16 @@
             background-color: #45a049;
         }
 
-        .login-container button.home-btn {
+        .login-container button.register-btn {
             margin-top: 10px;
+            background-color: #2196F3;
+        }
+
+        .login-container button.register-btn:hover {
+            background-color: #1e87dc;
+        }
+
+        .login-container button.home-btn {
             background-color: #666;
         }
 
@@ -108,6 +116,10 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit">登入</button>
+        </form>
+
+        <form action="firstcome.php">
+            <button type="submit" class="register-btn" style="margin-bottom: 10px;">註冊個人資料</button>
         </form>
         
         <form action="mainpage.php">

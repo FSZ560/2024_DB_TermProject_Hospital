@@ -73,45 +73,63 @@
         <tbody>
 <?php
 // 資料庫連線參數
-$servername = "localhost"; // 根據你的伺服器設定調整
-$username = "root"; // 根據你的伺服器設定調整
+$servername = "localhost"; 
+$username = "root";
 $password = "DB_team_11_password"; 
 $dbname = "db_team_11_project";
 
-// 建立連線
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// 檢查連線是否成功
 if ($conn->connect_error) {
     die("連接失敗: " . $conn->connect_error);
 }
 
+// 取得 Patient ID
+$patient_id = isset($_GET['patient_id']) ? $_GET['patient_id'] : '';
+
 // 查詢 SQL 語句
-$sql = "SELECT * FROM clinic";
-$result = $conn->query($sql);
+$sql = "SELECT 
+            appointment.appointment_id, 
+            appointment.patient_id, 
+            patient.height, 
+            patient.weight, 
+            person.last_name, 
+            person.first_name, 
+            person.phone, 
+            person.id_card
+        FROM 
+            appointment
+        INNER JOIN 
+            patient ON appointment.patient_id = patient.person_id
+        INNER JOIN 
+            person ON patient.person_id = person.person_id
+        WHERE 
+            appointment.patient_id = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $patient_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // 檢查是否有結果
 if ($result->num_rows > 0) {
-    // 顯示資料
     echo "<table border='1'>";
-    echo "<tr><th>clinic_id</th><th>clinic_date</th><th>period</th><th>department_id</th><th>location</th><th>doctor_id</th></tr>";
-    
-    while($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row["clinic_id"] . "</td>";
-        echo "<td>" . $row["clinic_date"] . "</td>";
-        echo "<td>" . $row["period"] . "</td>";
-        echo "<td>" . $row["department_id"] . "</td>";
-        echo "<td>" . $row["location"] . "</td>";
-        echo "<td>" . $row["doctor_id"] . "</td>";
-        echo "</tr>";
-    }
+    echo "<tr><th>Last Name</th><th>First Name</th><th>Phone</th><th>ID Card</th><th>Height</th><th>Weight</th></tr>";
+    echo "<tr>";
+	$row = $result->fetch_assoc();
+    echo "<td>" . $row["last_name"] . "</td>";
+    echo "<td>" . $row["first_name"] . "</td>";
+    echo "<td>" . $row["phone"] . "</td>";
+    echo "<td>" . $row["id_card"] . "</td>";
+    echo "<td>" . $row["height"] . "</td>";
+    echo "<td>" . $row["weight"] . "</td>";
+    echo "</tr>";
     echo "</table>";
 } else {
-    echo "0 結果";
+    echo "沒有找到對應的病人資料。";
 }
 
-// 關閉連線
+$stmt->close();
 $conn->close();
 ?>
         </tbody>

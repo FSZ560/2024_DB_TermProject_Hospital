@@ -73,27 +73,25 @@
         <tbody>
 <?php
 // 資料庫連接設定
-$servername = "localhost"; // 根據伺服器調整
-$username = "root"; // 資料庫使用者名稱
-$password = "DB_team_11_password"; // 資料庫密碼
-$dbname = "db_team_11_project"; // 資料庫名稱
+$servername = "localhost"; 
+$username = "root"; 
+$password = "DB_team_11_password";
+$dbname = "db_team_11_project";
 
-// 建立連接
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// 檢查連接是否成功
 if ($conn->connect_error) {
     die("連接失敗: " . $conn->connect_error);
 }
 
-// 分頁參數
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$start_from = ($page - 1) * $records_per_page;
+$record_id = isset($_GET['record_id']) ? $_GET['record_id'] : '';
 
 // 從資料表中選取資料
-$sql = "SELECT * FROM medical_certificate";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM medical_certificate WHERE record_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $record_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     echo "<table border='1'>";
@@ -102,31 +100,17 @@ if ($result->num_rows > 0) {
 			<th>record_id</th>
 			<th>prescription</th>
 		</tr>";
-
-    // 輸出每一行資料
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["certificate_id"] . "</td><td>" . $row["record_id"] . "</td><td>" . $row["prescription"] . "</td></tr>";
-    }
+	echo "<tr>";
+    $row = $result->fetch_assoc(); 
+    echo "<td>" . $row["certificate_id"] . "</td>";
+	echo "<td>" . $row["record_id"] . "</td>";
+	echo "<td>" . $row["prescription"] . "</td>";
+	echo "</tr>";
 
     echo "</table>";
 } else {
     echo "資料表為空";
 }
-
-// 分頁邏輯
-$sql_total = "SELECT COUNT(*) AS total FROM appointment";
-$total_records = $conn->query($sql_total)->fetch_assoc()['total'];
-$total_pages = ceil($total_records / $records_per_page);
-
-echo "</tbody></table><div class='pagination'>";
-for ($i = 1; $i <= $total_pages; $i++) {
-    if ($i == $page) {
-        echo "<span class='current'>$i</span>";
-    } else {
-        echo "<a href='?page=$i'>$i</a>";
-    }
-}
-echo "</div>";
 
 // 關閉連接
 $conn->close();

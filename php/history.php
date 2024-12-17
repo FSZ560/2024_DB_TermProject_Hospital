@@ -1,3 +1,67 @@
+<?php
+session_start();
+require_once 'db_conn.php';
+
+// 驗證使用者是否登入且為病人
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'patient') {
+    header("Location: patient_login.php");
+    exit();
+}
+
+// 獲取病人資訊
+try {
+    $stmt = $db->prepare("
+        SELECT id_card, last_name, first_name 
+        FROM person 
+        WHERE person_id = ? 
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    $patient = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$patient) {
+        echo "找不到使用者資訊。";
+        exit();
+    }
+} catch (PDOException $e) {
+    die("系統錯誤，請稍後再試：" . $e->getMessage());
+}
+
+// 分頁參數
+$records_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start_from = ($page - 1) * $records_per_page;
+
+// 查詢掛號記錄
+$appointments = [];
+try {
+    $stmt = $db->prepare("
+        SELECT * 
+        FROM appointment 
+        WHERE patient_id = ? 
+        ORDER BY register_time DESC 
+        LIMIT ?, ?
+    ");
+    $stmt->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->bindValue(2, $start_from, PDO::PARAM_INT);
+    $stmt->bindValue(3, $records_per_page, PDO::PARAM_INT);
+    $stmt->execute();
+    $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("無法獲取掛號記錄：" . $e->getMessage());
+}
+
+// 計算總記錄數
+$total_records = 0;
+$total_pages = 0;
+try {
+    $stmt = $db->prepare("SELECT COUNT(*) AS total FROM appointment WHERE patient_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $total_records = $stmt->fetchColumn();
+    $total_pages = ceil($total_records / $records_per_page);
+} catch (PDOException $e) {
+    die("無法計算總記錄數：" . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,22 +113,6 @@
             color: white;
             border: none;
         }
-        .action-icons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .action-icons a {
-            color: inherit;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .action-icons a.edit {
-            color: blue;
-        }
-        .action-icons a.delete {
-            color: red;
-        }
     </style>
 </head>
 <body>
@@ -81,100 +129,39 @@
             </tr>
         </thead>
         <tbody>
-<?php
-// 資料庫連線資訊
-$host = "localhost";
-$username = "root";
-$password = "DB_team_11_password";
-$database = "db_team_11_project";
-
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-    die("資料庫連線失敗: " . $conn->connect_error);
-}
-
-// 處理刪除操作
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    $sql_delete = "DELETE FROM appointment WHERE appointment_id = ?";
-    $stmt = $conn->prepare($sql_delete);
-    $stmt->bind_param("i", $delete_id);
-    if ($stmt->execute()) {
-        echo "<script>alert('記錄已刪除'); window.location.href='?page=1';</script>";
-    } else {
-        echo "<script>alert('刪除失敗');</script>";
-    }
-    $stmt->close();
-}
-
-// 獲取篩選條件
-$year_filter = isset($_GET['year']) ? $_GET['year'] : '';
-$order_filter = isset($_GET['order']) ? $_GET['order'] : 'DESC'; // 預設由新到舊
-$clinic_filter = isset($_GET['clinic']) ? $_GET['clinic'] : '';
-
-// 建立查詢條件
-$where_conditions = [];
-if ($year_filter) {
-    $where_conditions[] = "YEAR(register_time) = '$year_filter'";
-}
-if ($clinic_filter) {
-    $where_conditions[] = "clinic_id = '$clinic_filter'";
-}
-$where_sql = $where_conditions ? "WHERE " . implode(" AND ", $where_conditions) : "";
-
-// 獲取可用的年份和科別
-$year_result = $conn->query("SELECT DISTINCT YEAR(register_time) AS year FROM appointment ORDER BY year DESC");
-$clinic_result = $conn->query("SELECT DISTINCT clinic_id FROM appointment ORDER BY clinic_id");
-
-// 分頁參數
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$start_from = ($page - 1) * $records_per_page;
-
-// 查詢資料
-$sql = "SELECT * FROM appointment ORDER BY register_time DESC LIMIT $start_from, $records_per_page";
-$result = $conn->query($sql);
-
-// 生成表格數據
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>
-                <td>#{$row['appointment_id']}</td>
-                <td>{$row['sequence_number']}</td>
-                <td>{$row['clinic_id']}</td>
-                <td>{$row['patient_id']}</td>
-                <td>{$row['register_time']}</td>
-                <td class='action-icons'>
-                    <a href='http://localhost/detail.php?records_id=" . $row['appointment_id'] . "'>🔍</a>
-                    <a href='?delete_id={$row['appointment_id']}' onclick='return confirm(\"確定要刪除這筆記錄嗎？\");' class='delete'>🗑️</a>
-                </td>
-              </tr>";
-    }
-} else {
-    echo "<tr><td colspan='6'>無記錄</td></tr>";
-}
-
-// 分頁邏輯
-$sql_total = "SELECT COUNT(*) AS total FROM appointment";
-$total_records = $conn->query($sql_total)->fetch_assoc()['total'];
-$total_pages = ceil($total_records / $records_per_page);
-
-echo "</tbody></table><div class='pagination'>";
-for ($i = 1; $i <= $total_pages; $i++) {
-    if ($i == $page) {
-        echo "<span class='current'>$i</span>";
-    } else {
-        echo "<a href='?page=$i'>$i</a>";
-    }
-}
-echo "</div>";
-
-$conn->close();
-?>
+            <?php
+            if ($appointments) {
+                foreach ($appointments as $appointment) {
+                    echo "<tr>
+                            <td>#{$appointment['appointment_id']}</td>
+                            <td>{$appointment['sequence_number']}</td>
+                            <td>{$appointment['clinic_id']}</td>
+                            <td>{$appointment['patient_id']}</td>
+                            <td>{$appointment['register_time']}</td>
+                            <td>
+                                <a href='detail.php?appointment_id={$appointment['appointment_id']}'>🔍</a>
+                                <a href='?delete_id={$appointment['appointment_id']}' onclick='return confirm(\"確定要刪除這筆記錄嗎？\");'>🗑️</a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>無掛號記錄</td></tr>";
+            }
+            ?>
         </tbody>
     </table>
+
+    <!-- 分頁 -->
     <div class="pagination">
+        <?php
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == $page) {
+                echo "<span class='current'>$i</span>";
+            } else {
+                echo "<a href='?page=$i'>$i</a>";
+            }
+        }
+        ?>
     </div>
 </body>
 </html>
-

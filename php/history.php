@@ -60,6 +60,21 @@ try {
 } catch (PDOException $e) {
     die("無法計算總記錄數：" . $e->getMessage());
 }
+
+// 刪除掛號記錄
+if (isset($_GET['delete_id'])) {
+    $delete_id = (int)$_GET['delete_id'];
+
+    try {
+        $stmt = $db->prepare("DELETE FROM appointment WHERE appointment_id = ?");
+        $stmt->execute([$delete_id]);
+        // 刪除成功後重新導向到當前頁面
+        header("Location: " . $_SERVER['PHP_SELF'] . "?page=$page");
+        exit();
+    } catch (PDOException $e) {
+        die("刪除失敗：" . $e->getMessage());
+    }
+}
 ?>
 
 <!DOCTYPE html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-13 17:18:05
+-- 產生時間： 2024-12-17 08:00:23
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -50,13 +50,6 @@ CREATE TABLE `clinic` (
   `doctor_id` char(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- 傾印資料表的資料 `clinic`
---
-
-INSERT INTO `clinic` (`clinic_id`, `clinic_date`, `period`, `department_id`, `location`, `doctor_id`) VALUES
-('CL00001', '2024-12-07', 'morning', 'DE00001', '第一醫療大樓205室', 'PE00002');
-
 -- --------------------------------------------------------
 
 --
@@ -74,7 +67,11 @@ CREATE TABLE `department` (
 
 INSERT INTO `department` (`department_id`, `department_name`) VALUES
 ('DE00001', '眼科'),
-('DE00002', '家醫科');
+('DE00002', '牙科'),
+('DE00003', '內科'),
+('DE00004', '外科'),
+('DE00005', '兒科'),
+('DE00006', '家醫科');
 
 -- --------------------------------------------------------
 
@@ -117,8 +114,13 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`person_id`, `height`, `weight`) VALUES
-('PE00001', 162.00, 50.00),
-('PE00003', 155.00, 50.00);
+('PE00003', 162.50, 55.00),
+('PE00005', 170.00, 62.00),
+('PE00006', 158.50, 48.50),
+('PE00007', 175.00, 70.00),
+('PE00008', 170.00, NULL),
+('PE00009', NULL, 55.00),
+('PE00010', 168.00, 65.00);
 
 -- --------------------------------------------------------
 
@@ -143,9 +145,16 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `password`, `phone`, `address`, `gender`, `birthday`) VALUES
-('PE00001', '長崎', '爽世', 'A123456789', '$2y$10$Apireq70AEaRDn9VU0DQeeReyMGOo18a1zdB.4G0BG9hJky1BwQJ.', '0912345678', NULL, 'F', '2008-05-27'),
-('PE00002', '千早', '愛音', 'A164551397', '$2y$10$kBxgnAJd62vP.w1LC.XtreeKm14KSxhFqF197SgIX7BZG8wXBR1by', NULL, NULL, 'F', '2008-09-08'),
-('PE00003', '高松', '燈', 'B123456789', '$2y$10$c8wqkwXMvzxOAUCbZ6pau.9fFSzulxqOyqgsZEIdfnSnKCS5qslFK', '0958146890', '桃園市中壢區春德路105號', 'F', '2008-11-22');
+('PE00001', '陳', '大文', 'A123456789', '$2y$10$lXEtoT4LMtJHBIm/sFK7B.MTZ5qK35QI0j2P/9dQComc1cA/SvuRa', '0912345678', '台北市信義區信義路五段7號', 'M', '1990-03-15'),
+('PE00002', '林', '小美', 'B234567890', '$2y$10$Cn9DtEFLP2GLtC90.XKP.OtOpc8c/Rpt4.QVYdDwkOV51EsNQ/bJW', '0923456789', '台中市西屯區台灣大道三段99號', 'F', '1995-07-22'),
+('PE00003', '王', '建國', 'C187654321', '$2y$10$nRa8iy9WL8G9HFdqtgSssOOqLNRL0rH.GPANGcS8REzJyeJPdw16W', '0934567890', NULL, 'M', '1988-12-01'),
+('PE00004', '張', '淑華', 'D198765432', '$2y$10$nlO7iQupd2aok54CpzHBUOkUjv0HlrjXVfUPRdHntcq.i3wdoXv12', NULL, '高雄市前金區中正路100號', 'F', '1992-05-30'),
+('PE00005', '李', '志明', 'E165432109', '$2y$10$0mciJZ/XmwOWtJTanGOdwuOn3t7H1OApJcKsYcDgfYKlLlI19cP06', '0956789012', NULL, 'M', NULL),
+('PE00006', '黃', '雅琪', 'F143219876', '$2y$10$IvoGOLqx8VtSbcFUbvyKyO4wTptDRiw4j1plVNUr41jLKa5m55j.u', NULL, NULL, 'F', '1997-09-18'),
+('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978901234', '新竹市東區光復路二段101號', NULL, '1993-11-25'),
+('PE00008', '吳', '家豪', 'H176543210', '$2y$10$2xicrxjZO0Sg4hQPrbEYoO6kG3qN9QxTRJ06KUtELz6Zd8td/5a2G', '0989012345', '桃園市中壢區中大路300號', 'M', '1991-08-14'),
+('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', NULL, NULL, 'F', '1994-04-27'),
+('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -164,7 +173,9 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`person_id`, `department_id`, `salary`) VALUES
-('PE00002', 'DE00001', NULL);
+('PE00001', 'DE00001', 150000),
+('PE00002', 'DE00006', NULL),
+('PE00003', 'DE00002', 250000);
 
 --
 -- 已傾印資料表的索引

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db_conn.php';
+require_once '../common/db_conn.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'doctor') {
     header("Location: doctor_login.php");
@@ -27,6 +27,6 @@ try {
 }
 ?>
 
-<form action="logout.php" method="post">
+<form action="../common/logout.php" method="post">
     <button type="submit">登出</button>
 </form>

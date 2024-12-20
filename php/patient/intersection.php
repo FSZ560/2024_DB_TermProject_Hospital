@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db_conn.php';
+require_once '../common/db_conn.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'patient') {
     header("Location: patient_login.php");
@@ -115,7 +115,7 @@ try {
     </div>
 
     <div class="menu-grid">
-        <a href="personal_data.php" class="menu-link">
+        <a href="../patient/personal_data.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../resource/user_list.png" alt="個人資料">
@@ -125,7 +125,7 @@ try {
             </div>
         </a>
 
-        <a href="history.php" class="menu-link">
+        <a href="../patient/history.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../resource/document.png" alt="掛號歷史">
@@ -135,7 +135,7 @@ try {
             </div>
         </a>
 
-        <a href="open_time.php" class="menu-link">
+        <a href="../patient/open_time.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../resource/schedule.png" alt="門診掛號">
@@ -146,7 +146,7 @@ try {
         </a>
     </div>
 
-    <form action="logout.php" method="post">
+    <form action="../common/logout.php" method="post">
         <button type="submit" class="logout-btn">登出</button>
     </form>
 </body>

@@ -187,13 +187,13 @@
     <div class="nav-bar">
         <div class="nav-container">
             <div class="button-group">
-                <a href="introduction.php">
+                <a href="../common/introduction.php">
                     <button class="nav-button intro-btn">醫院簡介</button>
                 </a>
-                <a href="patient_login.php">
+                <a href="../patient/patient_login.php">
                     <button class="nav-button patient-btn">病患登入</button>
                 </a>
-                <a href="doctor_login.php">
+                <a href="../doctor/doctor_login.php">
                     <button class="nav-button doctor-btn">醫師登入</button>
                 </a>
             </div>

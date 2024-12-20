@@ -5,11 +5,11 @@ session_unset();
 session_destroy();
 
 if ($userType === 'doctor') {
-    header("Location: doctor_login.php");
+    header("Location: ../doctor/doctor_login.php");
 } else if ($userType === 'patient') {
-    header("Location: patient_login.php");
+    header("Location: ../patient/patient_login.php");
 } else {
-    header("Location: patient_login.php");
+    header("Location: ../patient/patient_login.php");
 }
 exit();
 ?>

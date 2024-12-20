@@ -118,7 +118,7 @@ try {
         <a href="../patient/personal_data.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../resource/user_list.png" alt="個人資料">
+                    <img src="../../resource/user_list.png" alt="個人資料">
                 </div>
                 <div class="menu-title">個人資料</div>
                 <div class="menu-description">查看及修改您的個人資料</div>
@@ -128,7 +128,7 @@ try {
         <a href="../patient/history.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../resource/document.png" alt="掛號歷史">
+                    <img src="../../resource/document.png" alt="掛號歷史">
                 </div>
                 <div class="menu-title">掛號歷史</div>
                 <div class="menu-description">查看您的掛號記錄</div>
@@ -138,7 +138,7 @@ try {
         <a href="../patient/open_time.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../resource/schedule.png" alt="門診掛號">
+                    <img src="../../resource/schedule.png" alt="門診掛號">
                 </div>
                 <div class="menu-title">門診掛號</div>
                 <div class="menu-description">查看門診時間並進行掛號</div>

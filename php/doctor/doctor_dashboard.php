@@ -115,7 +115,7 @@ try {
     </div>
 
     <div class="menu-grid">
-        <a href="../doctor/schedule.php" class="menu-link">
+        <a href="../doctor/clinic_create.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../../resource/schedule.png" alt="新增門診">
@@ -125,7 +125,7 @@ try {
             </div>
         </a>
 
-        <a href="../doctor/patient_list.php" class="menu-link">
+        <a href="../doctor/clinic_list.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../../resource/document.png" alt="門診清單">

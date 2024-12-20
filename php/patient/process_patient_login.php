@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION['user_id'] = $user['person_id'];
             $_SESSION['user_type'] = 'patient';
-            header("Location: ../patient/intersection.php");
+            header("Location: ../patient/patient_dashboard.php");
             exit();
         } else {
             header("Location: ../patient/patient_login.php?error=invalid");

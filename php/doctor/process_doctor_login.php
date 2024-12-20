@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION['user_id'] = $user['person_id'];
             $_SESSION['user_type'] = 'doctor';
-            header("Location: ../doctor/patient_list.php");
+            header("Location: ../doctor/doctor_dashboard.php");
             exit();
         } else {
             header("Location: ../doctor/doctor_login.php?error=invalid");

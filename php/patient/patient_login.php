@@ -118,7 +118,7 @@
             <button type="submit">登入</button>
         </form>
 
-        <form action="firstcome.php">
+        <form action="patient_register.php">
             <button type="submit" class="register-btn" style="margin-bottom: 10px;">註冊個人資料</button>
         </form>
         

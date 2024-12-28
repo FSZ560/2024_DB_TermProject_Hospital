@@ -225,7 +225,17 @@ function getPeriodText($period) {
                             <tr>
                                 <td><?php echo htmlspecialchars($patient['sequence_number']); ?></td>
                                 <td><?php echo htmlspecialchars($patient['last_name'] . $patient['first_name']); ?></td>
-                                <td><?php echo $patient['gender'] === 'M' ? '男' : '女'; ?></td>
+                                <td>
+                                    <?php
+                                    if ($patient['gender'] === NULL) {
+                                        echo '-';
+                                    } else if ($patient['gender'] === 'M') {
+                                        echo '男';
+                                    } else {
+                                        echo '女';
+                                    }
+                                    ?>
+                                </td>
                                 <td>
                                     <?php 
                                     $birthDate = new DateTime($patient['birthday']);

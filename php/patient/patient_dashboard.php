@@ -130,8 +130,8 @@ try {
                 <div class="menu-icon">
                     <img src="../../resource/document.png" alt="掛號歷史">
                 </div>
-                <div class="menu-title">掛號歷史</div>
-                <div class="menu-description">查看您的掛號記錄</div>
+                <div class="menu-title">掛號紀錄</div>
+                <div class="menu-description">查看或取消您的目前的掛號記錄，</div>
             </div>
         </a>
 
@@ -142,6 +142,16 @@ try {
                 </div>
                 <div class="menu-title">門診掛號</div>
                 <div class="menu-description">查看門診時間並進行掛號</div>
+            </div>
+        </a>
+
+        <a href="../patient/history.php" class="menu-link">
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <img src="../../resource/TBC.png" alt="過去就診紀錄">
+                </div>
+                <div class="menu-title">過去就診紀錄</div>
+                <div class="menu-description">查看過去的就醫紀錄</div>
             </div>
         </a>
     </div>

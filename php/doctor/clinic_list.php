@@ -10,10 +10,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'doctor') {
 try {
     $stmt = $db->prepare("
         SELECT c.clinic_id, c.clinic_date, c.period, c.location, 
-               d.department_name, COUNT(a.appointment_id) as appointment_count
+               d.department_name, 
+               COUNT(DISTINCT a.appointment_id) as appointment_count,
+               COUNT(DISTINCT mr.record_id) as treated_count
         FROM clinic c
         JOIN department d ON c.department_id = d.department_id
         LEFT JOIN appointment a ON c.clinic_id = a.clinic_id
+        LEFT JOIN medical_record mr ON c.clinic_id = mr.clinic_id
         WHERE c.doctor_id = ?
         GROUP BY c.clinic_id
         ORDER BY c.clinic_date DESC, 
@@ -166,6 +169,7 @@ function getPeriodText($period) {
                         <th>科別</th>
                         <th>看診地點</th>
                         <th>待看診人數</th>
+                        <th>已看診人數</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -177,6 +181,7 @@ function getPeriodText($period) {
                             <td><?php echo htmlspecialchars($clinic['department_name']); ?></td>
                             <td><?php echo htmlspecialchars($clinic['location']); ?></td>
                             <td><?php echo htmlspecialchars($clinic['appointment_count']); ?></td>
+                            <td><?php echo htmlspecialchars($clinic['treated_count']); ?></td>
                             <td>
                                 <a href="patient_consult.php?clinic_id=<?php echo urlencode($clinic['clinic_id']); ?>" 
                                    class="action-btn consult-btn">進行看診</a>

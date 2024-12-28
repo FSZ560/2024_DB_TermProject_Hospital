@@ -187,7 +187,7 @@ function getPeriodText($period) {
     <div class="container">
         <?php if (isset($clinic)): ?>
             <div class="clinic-info">
-                <h1>看診名單</h1>
+                <h1>待看診名單</h1>
                 <h2>
                     <?php 
                     echo htmlspecialchars($clinic['department_name']) . ' - ' . 
@@ -229,9 +229,13 @@ function getPeriodText($period) {
                                 <td>
                                     <?php 
                                     $birthDate = new DateTime($patient['birthday']);
-                                    $today = new DateTime();
-                                    $age = $birthDate->diff($today)->y;
-                                    echo $age . '歲';
+                                    if ($patient['birthday']  === NULL) {
+                                        echo '-';
+                                    } else {
+                                        $today = new DateTime();
+                                        $age = $birthDate->diff($today)->y;
+                                        echo $age . '歲';
+                                    }
                                     ?>
                                 </td>
                                 <td><?php echo $patient['height'] ? htmlspecialchars($patient['height']) . ' cm' : '-'; ?></td>

@@ -47,6 +47,9 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>門診清單</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,9 +84,50 @@ function getPeriodText($period) {
         }
 
         th {
-            background-color: #ff9900;
+            background: #ff9900 !important;
             color: white;
+            cursor: pointer;
+            position: relative; /* 讓圖示可以定位 */
+            padding-right: 30px; /* 讓右側有更多空間顯示圖示 */
         }
+
+        th .sort-icon {
+            position: absolute;
+            right: 10px; /* 讓圖示位於表格右側 */
+            top: 50%; /* 垂直居中 */
+            transform: translateY(-50%); /* 精確垂直居中 */
+            font-size: 16px;
+            z-index: 1; /* 確保圖示位於表格標題文字上方 */
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 15%; /* 第一列寬度為 20% */
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 7%; /* 第二列寬度為 10% */
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 7%; /* 第三列寬度為 15% */
+        }
+
+        th:nth-child(4), td:nth-child(4) {
+            width: 20%; /* 第四列寬度為 25% */
+        }
+
+        th:nth-child(5), td:nth-child(5) {
+            width: 13%; /* 第五列寬度為 10% */
+        }
+
+        th:nth-child(6), td:nth-child(6) {
+            width: 13%; /* 第六列寬度為 10% */
+        }
+
+        th:nth-child(7), td:nth-child(7) {
+            width: 25%; /* 第七列寬度為 10% */
+        }
+
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -161,15 +205,15 @@ function getPeriodText($period) {
         <?php if (empty($clinics)): ?>
             <div class="empty-message">目前沒有門診記錄</div>
         <?php else: ?>
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>門診日期</th>
-                        <th>時段</th>
-                        <th>科別</th>
-                        <th>看診地點</th>
-                        <th>待看診人數</th>
-                        <th>已看診人數</th>
+                        <th data-sort="clinic_date">門診日期</th>
+                        <th data-sort="period">時段</th>
+                        <th data-sort="department_name">科別</th>
+                        <th data-sort="location">看診地點</th>
+                        <th data-sort="appointment_count">待看診人數</th>
+                        <th data-sort="treated_count">已看診人數</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -183,10 +227,8 @@ function getPeriodText($period) {
                             <td><?php echo htmlspecialchars($clinic['appointment_count']); ?></td>
                             <td><?php echo htmlspecialchars($clinic['treated_count']); ?></td>
                             <td>
-                                <a href="patient_consult.php?clinic_id=<?php echo urlencode($clinic['clinic_id']); ?>" 
-                                   class="action-btn consult-btn">進行看診</a>
-                                <a href="patient_list.php?clinic_id=<?php echo urlencode($clinic['clinic_id']); ?>" 
-                                   class="action-btn list-btn">已看病人清單</a>
+                                <a href="patient_consult.php?clinic_id=<?php echo urlencode($clinic['clinic_id']); ?>" class="action-btn consult-btn">進行看診</a>
+                                <a href="patient_list.php?clinic_id=<?php echo urlencode($clinic['clinic_id']); ?>" class="action-btn list-btn">已看病人清單</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -198,5 +240,69 @@ function getPeriodText($period) {
             <a href="doctor_dashboard.php" class="back-btn">返回</a>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // 預設
+            $('th').each(function() {
+                $(this).addClass('descending');  // 預設為降冪
+            });
+            
+            // 自動顯示第一列的 down 圖示
+            var firstColumn = $('th').eq(0); // 第一列
+            if (firstColumn.index() !== $('th').length - 1) {  // 忽略最後一欄
+                firstColumn.addClass('descending'); // 設置為降冪排序
+                firstColumn.append('<span class="sort-icon"><i class="bx bx-sort-down"></i></span>'); // 顯示圖示
+            }
+            firstColumn.append('<span class="sort-icon"><i class="bx bx-sort-down"></i></span>'); // 顯示圖示
+
+            // 點擊排序功能
+            firstColumn.trigger('click'); // 模擬第一次點擊排序
+
+            $('th').click(function() {
+                var index = $(this).index();
+
+                if (index !== $('th').length - 1) {
+                var rows = $('tbody tr').toArray();
+                var isAscending = $(this).hasClass('descending');
+                
+                // 先移除所有表頭的圖示
+                $('th').find('.sort-icon').remove();
+
+                // 根據排序方向添加相應的圖示
+                var icon = isAscending ? '<i class="bx bx-sort-down"></i>' : '<i class="bx bx-sort-up"></i>';
+                $(this).append('<span class="sort-icon">' + icon + '</span>'); // 在當前點擊的表頭中顯示排序圖示
+
+                // 排序表格
+                rows.sort(function(a, b) {
+                    var cellA = $(a).children('td').eq(index).text();
+                    var cellB = $(b).children('td').eq(index).text();
+                    if ($.isNumeric(cellA) && $.isNumeric(cellB)) {
+                        return cellA - cellB;
+                    }
+                    return cellA.localeCompare(cellB);
+                });
+
+                // 如果是升冪，反轉行數據
+                if (isAscending) {
+                    rows.reverse();
+                }
+
+                // 移除所有的 ascending 和 descending 樣式
+                $('th').removeClass('ascending descending');
+
+                // 設置當前列的排序方向樣式
+                if (isAscending) {
+                    $(this).addClass('ascending');
+                } else {
+                    $(this).addClass('descending');
+                }
+
+                // 更新表格內容
+                $('tbody').append(rows);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -125,7 +125,7 @@ try {
             </div>
         </a>
 
-        <a href="../doctor/clinic_list2.php" class="menu-link">
+        <a href="../doctor/clinic_list.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../../resource/document.png" alt="門診清單">

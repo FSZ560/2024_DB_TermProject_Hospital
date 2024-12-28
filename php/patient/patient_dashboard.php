@@ -125,17 +125,17 @@ try {
             </div>
         </a>
 
-        <a href="../patient/history.php" class="menu-link">
+        <a href="../patient/appointment_manage.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../../resource/document.png" alt="掛號歷史">
                 </div>
-                <div class="menu-title">掛號紀錄</div>
+                <div class="menu-title">掛號紀錄管理</div>
                 <div class="menu-description">查看或取消您的目前的掛號記錄，</div>
             </div>
         </a>
 
-        <a href="../patient/open_time.php" class="menu-link">
+        <a href="../patient/appointment_book.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
                     <img src="../../resource/schedule.png" alt="門診掛號">

@@ -187,7 +187,7 @@
     <div class="nav-bar">
         <div class="nav-container">
             <div class="button-group">
-                <a href="../common/introduction.php">
+                <a href="../page/introduction.php">
                     <button class="nav-button intro-btn">醫院簡介</button>
                 </a>
                 <a href="../patient/patient_login.php">

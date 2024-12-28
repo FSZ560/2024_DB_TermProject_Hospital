@@ -47,7 +47,7 @@
         }
 
         .back-btn:hover {
-            background-color: #45a049;
+            background-color: #555;
         }
     </style>
 

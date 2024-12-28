@@ -1,5 +1,5 @@
 <?php
-require_once 'db_conn.php';
+require_once '../common/db_conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // success
         echo "<script>
             alert('註冊成功');
-            window.location.href = 'patient_login.php';
+            window.location.href = '../patient/patient_login.php';
         </script>";
 
     } catch (Exception $e) {
@@ -170,7 +170,7 @@ function generatePersonId() {
         </div>
 
         <div class="button-group">
-            <button type="button" class="back-btn" onclick="window.location.href='patient_login.php'">返回登入</button>
+            <button type="button" class="back-btn" onclick="window.location.href='../patient/patient_login.php'">返回登入</button>
             <button type="submit" class="submit-btn">註冊</button>
         </div>
     </form>

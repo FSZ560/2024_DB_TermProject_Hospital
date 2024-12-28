@@ -1,5 +1,5 @@
 <?php
-require_once 'db_conn.php';
+require_once '../common/db_conn.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_card = $_POST['id'];
@@ -19,14 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION['user_id'] = $user['person_id'];
             $_SESSION['user_type'] = 'doctor';
-            header("Location: patient_list.php");
+            header("Location: ../doctor/doctor_dashboard.php");
             exit();
         } else {
-            header("Location: doctor_login.php?error=invalid");
+            header("Location: ../doctor/doctor_login.php?error=invalid");
             exit();
         }
     } catch(PDOException $e) {
-        header("Location: doctor_login.php?error=system");
+        header("Location: ../doctor/doctor_login.php?error=system");
         exit();
     }
 }

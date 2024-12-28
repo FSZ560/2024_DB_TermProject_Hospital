@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once 'db_conn.php';
+require_once '../common/db_conn.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'patient') {
-    header("Location: patient_login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'doctor') {
+    header("Location: doctor_login.php");
     exit();
 }
 
@@ -14,7 +14,7 @@ try {
         WHERE person_id = ?
     ");
     $stmt->execute([$_SESSION['user_id']]);
-    $patient = $stmt->fetch();
+    $doctor = $stmt->fetch();
 } catch (PDOException $e) {
     echo "系統錯誤，請稍後再試";
 }
@@ -25,7 +25,7 @@ try {
 
 <head>
     <meta charset="UTF-8">
-    <title>病患管理系統</title>
+    <title>醫師管理系統</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,7 +35,7 @@ try {
         }
 
         .welcome-section {
-            background: linear-gradient(to right, #4CAF50, #45a049);
+            background: linear-gradient(to right, #ff9900, #e68a00);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -110,43 +110,33 @@ try {
 
 <body>
     <div class="welcome-section">
-        <h2>歡迎 <?php echo htmlspecialchars($patient['last_name'] . $patient['first_name']); ?></h2>
-        <p>身分證字號：<?php echo htmlspecialchars($patient['id_card']); ?></p>
+        <h2>歡迎醫師 <?php echo htmlspecialchars($doctor['last_name'] . $doctor['first_name']); ?></h2>
+        <p>身分證字號：<?php echo htmlspecialchars($doctor['id_card']); ?></p>
     </div>
 
     <div class="menu-grid">
-        <a href="personal_data.php" class="menu-link">
+        <a href="../doctor/clinic_create.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../resource/user_list.png" alt="個人資料">
+                    <img src="../../resource/schedule.png" alt="新增門診">
                 </div>
-                <div class="menu-title">個人資料</div>
-                <div class="menu-description">查看及修改您的個人資料</div>
+                <div class="menu-title">新增門診</div>
+                <div class="menu-description">開設一個新的門診</div>
             </div>
         </a>
 
-        <a href="history.php" class="menu-link">
+        <a href="../doctor/clinic_list.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../resource/document.png" alt="掛號歷史">
+                    <img src="../../resource/document.png" alt="門診清單">
                 </div>
-                <div class="menu-title">掛號歷史</div>
-                <div class="menu-description">查看您的掛號記錄</div>
-            </div>
-        </a>
-
-        <a href="open_time.php" class="menu-link">
-            <div class="menu-item">
-                <div class="menu-icon">
-                    <img src="../resource/schedule.png" alt="門診掛號">
-                </div>
-                <div class="menu-title">門診掛號</div>
-                <div class="menu-description">查看門診時間並進行掛號</div>
+                <div class="menu-title">門診清單</div>
+                <div class="menu-description">查看您的門診清單</div>
             </div>
         </a>
     </div>
 
-    <form action="logout.php" method="post">
+    <form action="../common/logout.php" method="post">
         <button type="submit" class="logout-btn">登出</button>
     </form>
 </body>

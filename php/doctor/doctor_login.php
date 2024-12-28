@@ -110,7 +110,7 @@
             <button type="submit">登入</button>
         </form>
         
-        <form action="mainpage.php">
+        <form action="../main/mainpage.php">
             <button type="submit" class="home-btn">返回首頁</button>
         </form>
     </div>

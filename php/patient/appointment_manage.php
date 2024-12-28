@@ -167,7 +167,7 @@ function getPeriodText($period) {
             </table>
         <?php endif; ?>
 
-        <a href="dashboard.php" class="back-btn">返回主頁</a>
+        <a href="patient_dashboard.php" class="back-btn">返回</a>
     </div>
 </body>
 </html>

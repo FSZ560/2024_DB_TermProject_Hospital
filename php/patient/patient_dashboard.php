@@ -148,7 +148,7 @@ try {
         <a href="../patient/history.php" class="menu-link">
             <div class="menu-item">
                 <div class="menu-icon">
-                    <img src="../../resource/TBC.png" alt="過去就診紀錄">
+                    <img src="../../resource/medical_document.png" alt="過去就診紀錄">
                 </div>
                 <div class="menu-title">過去就診紀錄</div>
                 <div class="menu-description">查看過去的就醫紀錄</div>

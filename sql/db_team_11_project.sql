@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-17 08:00:23
+-- 產生時間： 2024-12-28 16:42:37
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `appointment` (
   `register_time` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- 傾印資料表的資料 `appointment`
+--
+
+INSERT INTO `appointment` (`appointment_id`, `sequence_number`, `clinic_id`, `patient_id`, `register_time`) VALUES
+('AP00001', 1, 'CL00003', 'PE00010', '2024-12-28 18:23:37');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +56,15 @@ CREATE TABLE `clinic` (
   `location` varchar(100) DEFAULT NULL,
   `doctor_id` char(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- 傾印資料表的資料 `clinic`
+--
+
+INSERT INTO `clinic` (`clinic_id`, `clinic_date`, `period`, `department_id`, `location`, `doctor_id`) VALUES
+('CL00001', '2024-12-20', 'morning', 'DE00001', '第一醫療大樓 101 室', 'PE00001'),
+('CL00002', '2024-12-25', 'evening', 'DE00005', '第二醫療大樓 610 室', 'PE00001'),
+('CL00003', '2024-12-26', 'afternoon', 'DE00006', '第三醫療大樓 315 室', 'PE00001');
 
 -- --------------------------------------------------------
 
@@ -85,6 +101,16 @@ CREATE TABLE `medical_certificate` (
   `prescription` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- 傾印資料表的資料 `medical_certificate`
+--
+
+INSERT INTO `medical_certificate` (`certificate_id`, `record_id`, `prescription`) VALUES
+('CE00001', 'RE00001', '近視\r\n使用散瞳劑治療'),
+('CE00002', 'RE00001', '老花眼\r\n需使用眼鏡'),
+('CE00003', 'RE00001', '乾眼症\r\n開立人工淚液'),
+('CE00005', 'RE00002', '針眼\r\n開立 Chloramphenicol Eye Drops');
+
 -- --------------------------------------------------------
 
 --
@@ -96,6 +122,14 @@ CREATE TABLE `medical_record` (
   `patient_id` char(7) NOT NULL,
   `clinic_id` char(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- 傾印資料表的資料 `medical_record`
+--
+
+INSERT INTO `medical_record` (`record_id`, `patient_id`, `clinic_id`) VALUES
+('RE00001', 'PE00005', 'CL00001'),
+('RE00002', 'PE00007', 'CL00001');
 
 -- --------------------------------------------------------
 
@@ -120,7 +154,8 @@ INSERT INTO `patient` (`person_id`, `height`, `weight`) VALUES
 ('PE00007', 175.00, 70.00),
 ('PE00008', 170.00, NULL),
 ('PE00009', NULL, 55.00),
-('PE00010', 168.00, 65.00);
+('PE00010', 168.00, 65.00),
+('PE00011', 160.00, 50.00);
 
 -- --------------------------------------------------------
 
@@ -154,7 +189,8 @@ INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `passwo
 ('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978901234', '新竹市東區光復路二段101號', NULL, '1993-11-25'),
 ('PE00008', '吳', '家豪', 'H176543210', '$2y$10$2xicrxjZO0Sg4hQPrbEYoO6kG3qN9QxTRJ06KUtELz6Zd8td/5a2G', '0989012345', '桃園市中壢區中大路300號', 'M', '1991-08-14'),
 ('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', NULL, NULL, 'F', '1994-04-27'),
-('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', NULL, NULL);
+('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', NULL, NULL),
+('PE00011', '王', '大明', 'L123456789', '$2y$10$hG/E/HGIVVPFjJRQbotYDeeRR0cAkpPhXwGrRmbK/hfX5ESzOqn3i', '0912345678', '', 'M', '1900-01-01');
 
 -- --------------------------------------------------------
 

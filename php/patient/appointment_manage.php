@@ -2,181 +2,172 @@
 session_start();
 require_once '../common/db_conn.php';
 
-// 驗證使用者是否登入且為病人
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'patient') {
-    header("Location: patient_login.php");
+    header("Location: login.php");
     exit();
 }
 
-// 獲取病人資訊
+$patient_id = $_SESSION['user_id'];
+
 try {
+    // 查詢病患的掛號資訊
     $stmt = $db->prepare("
-        SELECT id_card, last_name, first_name 
-        FROM person 
-        WHERE person_id = ? 
+        SELECT a.appointment_id, a.sequence_number, a.register_time, 
+               c.clinic_date, c.period, d.department_name, c.location
+        FROM appointment a
+        JOIN clinic c ON a.clinic_id = c.clinic_id
+        JOIN department d ON c.department_id = d.department_id
+        WHERE a.patient_id = ?
+        ORDER BY c.clinic_date, c.period
     ");
-    $stmt->execute([$_SESSION['user_id']]);
-    $patient = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$patient) {
-        echo "找不到使用者資訊。";
+    $stmt->execute([$patient_id]);
+    $appointments = $stmt->fetchAll();
+
+    // 處理刪除請求
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'])) {
+        $delete_stmt = $db->prepare("DELETE FROM appointment WHERE appointment_id = ? AND patient_id = ?");
+        $delete_stmt->execute([$_POST['appointment_id'], $patient_id]);
+        header("Location: appointment_manage.php");
         exit();
     }
-} catch (PDOException $e) {
-    die("系統錯誤，請稍後再試：" . $e->getMessage());
+
+} catch (Exception $e) {
+    $error_message = $e->getMessage();
 }
 
-// 分頁參數
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$start_from = ($page - 1) * $records_per_page;
-
-// 查詢掛號記錄
-$appointments = [];
-try {
-    $stmt = $db->prepare("
-        SELECT * 
-        FROM appointment 
-        WHERE patient_id = ? 
-        ORDER BY register_time DESC 
-        LIMIT ?, ?
-    ");
-    $stmt->bindValue(1, $_SESSION['user_id'], PDO::PARAM_INT);
-    $stmt->bindValue(2, $start_from, PDO::PARAM_INT);
-    $stmt->bindValue(3, $records_per_page, PDO::PARAM_INT);
-    $stmt->execute();
-    $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("無法獲取掛號記錄：" . $e->getMessage());
-}
-
-// 計算總記錄數
-$total_records = 0;
-$total_pages = 0;
-try {
-    $stmt = $db->prepare("SELECT COUNT(*) AS total FROM appointment WHERE patient_id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $total_records = $stmt->fetchColumn();
-    $total_pages = ceil($total_records / $records_per_page);
-} catch (PDOException $e) {
-    die("無法計算總記錄數：" . $e->getMessage());
-}
-
-// 刪除掛號記錄
-if (isset($_GET['delete_id'])) {
-    $delete_id = (int)$_GET['delete_id'];
-
-    try {
-        $stmt = $db->prepare("DELETE FROM appointment WHERE appointment_id = ?");
-        $stmt->execute([$delete_id]);
-        // 刪除成功後重新導向到當前頁面
-        header("Location: " . $_SERVER['PHP_SELF'] . "?page=$page");
-        exit();
-    } catch (PDOException $e) {
-        die("刪除失敗：" . $e->getMessage());
+function getPeriodText($period) {
+    switch ($period) {
+        case 'morning': return '上午';
+        case 'afternoon': return '下午';
+        case 'evening': return '晚上';
+        default: return '';
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掛號記錄查詢</title>
+    <title>掛號管理</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        h1, h2 {
+            color: #45a049;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-        }
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        table th {
-            background-color: #f4f4f4;
-            cursor: pointer;
-        }
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .pagination {
-            text-align: center;
             margin-top: 20px;
         }
-        .pagination a, .pagination span {
-            margin: 0 5px;
-            padding: 8px 12px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            color: #007bff;
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-        .pagination a:hover {
-            background-color: #007bff;
+
+        thead {
+            background: linear-gradient(to right, #4CAF50, #45a049);
+        }
+
+        th {
             color: white;
         }
-        .pagination span.current {
-            background-color: #007bff;
+
+        .delete-btn {
+            padding: 6px 12px;
+            background-color: #f44336;
             color: white;
             border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #666;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            background-color: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-    <h1>掛號記錄查詢</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Appointment ID</th>
-                <th>Sequence No</th>
-                <th>Clinic</th>
-                <th>Patient ID</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($appointments) {
-                foreach ($appointments as $appointment) {
-                    echo "<tr>
-                            <td>#{$appointment['appointment_id']}</td>
-                            <td>{$appointment['sequence_number']}</td>
-                            <td>{$appointment['clinic_id']}</td>
-                            <td>{$appointment['patient_id']}</td>
-                            <td>{$appointment['register_time']}</td>
-                            <td>
-                                <a href='detail.php?appointment_id={$appointment['appointment_id']}'>🔍</a>
-                                <a href='?delete_id={$appointment['appointment_id']}' onclick='return confirm(\"確定要刪除這筆記錄嗎？\");'>🗑️</a>
-                            </td>
-                          </tr>";
-                }
-            } else {
-                echo "<tr><td colspan='6'>無掛號記錄</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>掛號管理</h1>
 
-    <!-- 分頁 -->
-    <div class="pagination">
-        <?php
-        for ($i = 1; $i <= $total_pages; $i++) {
-            if ($i == $page) {
-                echo "<span class='current'>$i</span>";
-            } else {
-                echo "<a href='?page=$i'>$i</a>";
-            }
-        }
-        ?>
+        <?php if (isset($error_message)): ?>
+            <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
+        <?php endif; ?>
+
+        <?php if (empty($appointments)): ?>
+            <p>目前沒有掛號記錄。</p>
+        <?php else: ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>掛號編號</th>
+                        <th>科別</th>
+                        <th>日期</th>
+                        <th>時段</th>
+                        <th>地點</th>
+                        <th>掛號時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($appointments as $appointment): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($appointment['appointment_id']); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['department_name']); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['clinic_date']); ?></td>
+                            <td><?php echo htmlspecialchars(getPeriodText($appointment['period'])); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['location'] ?? '-'); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['register_time']); ?></td>
+                            <td>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']); ?>">
+                                    <button type="submit" class="delete-btn">取消掛號</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+
+        <a href="dashboard.php" class="back-btn">返回主頁</a>
     </div>
 </body>
 </html>

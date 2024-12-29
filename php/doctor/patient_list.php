@@ -57,95 +57,10 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>已看診病人清單</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            color: #ff9900;
-        }
-
-        .clinic-info {
-            background-color: #fff3e0;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #ff9900;
-            color: white;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            text-decoration: none;
-            margin: 0 5px;
-            display: inline-block;
-            font-size: 14px;
-        }
-
-        .add-btn {
-            background-color: #4CAF50;
-        }
-
-        .add-btn:hover {
-            background-color: #45a049;
-        }
-
-        .view-btn {
-            background-color: #2196F3;
-        }
-
-        .view-btn:hover {
-            background-color: #1976D2;
-        }
-
-        .back-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #666;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-
-        .error-message {
-            color: red;
-            background-color: #ffe6e6;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./asset/patient_list.css">  <!-- 引入外部 CSS 檔案 -->
 </head>
 <body>
     <div class="container">
@@ -168,7 +83,7 @@ function getPeriodText($period) {
             <?php if (empty($patients)): ?>
                 <p>目前沒有已看診病人</p>
             <?php else: ?>
-                <table>
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>病歷號</th>
@@ -229,5 +144,6 @@ function getPeriodText($period) {
 
         <a href="clinic_list.php" class="back-btn">返回診次列表</a>
     </div>
+    <script src="./script/patient_list.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

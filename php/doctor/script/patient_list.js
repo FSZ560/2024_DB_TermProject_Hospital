@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('th').click(function() {
         var index = $(this).index();
 
-        if (index !== $('th').length - 1) {
+        
         var rows = $('tbody tr').toArray();
         var isAscending = $(this).hasClass('descending');
         
@@ -26,9 +26,10 @@ $(document).ready(function() {
         $('th').find('.sort-icon').remove();
 
         // 根據排序方向添加相應的圖示
-        var icon = isAscending ? '<i class="bx bx-sort-down"></i>' : '<i class="bx bx-sort-up"></i>';
-        $(this).append('<span class="sort-icon">' + icon + '</span>'); // 在當前點擊的表頭中顯示排序圖示
-
+        if (index !== $('th').length - 1) {
+            var icon = isAscending ? '<i class="bx bx-sort-down"></i>' : '<i class="bx bx-sort-up"></i>';
+            $(this).append('<span class="sort-icon">' + icon + '</span>'); // 在當前點擊的表頭中顯示排序圖示
+        }
         // 排序表格
         rows.sort(function(a, b) {
             var cellA = $(a).children('td').eq(index).text();
@@ -56,6 +57,5 @@ $(document).ready(function() {
 
         // 更新表格內容
         $('tbody').append(rows);
-        }
     });
 });

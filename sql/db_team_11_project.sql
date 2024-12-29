@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-29 14:43:34
+-- 產生時間： 2024-12-29 14:54:58
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -251,6 +251,34 @@ INSERT INTO `staff` (`person_id`, `department_id`, `salary`) VALUES
 ('PE00001', 'DE00001', 150000),
 ('PE00002', 'DE00006', NULL),
 ('PE00003', 'DE00002', 250000);
+
+-- --------------------------------------------------------
+
+--
+-- 替換檢視表以便查看 `v_medical_record_detail`
+-- (請參考以下實際畫面)
+--
+CREATE TABLE `v_medical_record_detail` (
+`record_id` char(7)
+,`clinic_id` char(7)
+,`clinic_date` date
+,`period` enum('morning','afternoon','evening')
+,`last_name` varchar(20)
+,`first_name` varchar(20)
+,`gender` enum('M','F')
+,`birthday` date
+,`department_name` varchar(50)
+,`doctor_id` char(7)
+);
+
+-- --------------------------------------------------------
+
+--
+-- 檢視表結構 `v_medical_record_detail`
+--
+DROP TABLE IF EXISTS `v_medical_record_detail`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_medical_record_detail`  AS SELECT `mr`.`record_id` AS `record_id`, `mr`.`clinic_id` AS `clinic_id`, `c`.`clinic_date` AS `clinic_date`, `c`.`period` AS `period`, `p`.`last_name` AS `last_name`, `p`.`first_name` AS `first_name`, `p`.`gender` AS `gender`, `p`.`birthday` AS `birthday`, `d`.`department_name` AS `department_name`, `c`.`doctor_id` AS `doctor_id` FROM ((((`medical_record` `mr` join `clinic` `c` on(`mr`.`clinic_id` = `c`.`clinic_id`)) join `patient` `pt` on(`mr`.`patient_id` = `pt`.`person_id`)) join `person` `p` on(`pt`.`person_id` = `p`.`person_id`)) join `department` `d` on(`c`.`department_id` = `d`.`department_id`)) ;
 
 --
 -- 已傾印資料表的索引

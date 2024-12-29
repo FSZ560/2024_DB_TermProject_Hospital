@@ -11,15 +11,9 @@ $record_id = $_GET['record_id'];
 
 try {
     $stmt = $db->prepare("
-        SELECT mr.record_id, mr.clinic_id, c.clinic_date, c.period,
-               p.last_name, p.first_name, p.gender, p.birthday,
-               d.department_name
-        FROM medical_record mr
-        JOIN clinic c ON mr.clinic_id = c.clinic_id
-        JOIN patient pt ON mr.patient_id = pt.person_id
-        JOIN person p ON pt.person_id = p.person_id
-        JOIN department d ON c.department_id = d.department_id
-        WHERE mr.record_id = ? AND c.doctor_id = ?
+        SELECT *
+        FROM v_medical_record_detail
+        WHERE record_id = ? AND doctor_id = ?
     ");
     $stmt->execute([$record_id, $_SESSION['user_id']]);
     $record = $stmt->fetch();

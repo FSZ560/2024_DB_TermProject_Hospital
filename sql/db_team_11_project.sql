@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-28 16:42:37
+-- 產生時間： 2024-12-29 10:26:27
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -40,7 +40,10 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`appointment_id`, `sequence_number`, `clinic_id`, `patient_id`, `register_time`) VALUES
-('AP00001', 1, 'CL00003', 'PE00010', '2024-12-28 18:23:37');
+('AP00002', 1, 'CL00002', 'PE00010', '2024-12-29 00:09:25'),
+('AP00004', 3, 'CL00003', 'PE00011', '2024-12-29 00:14:02'),
+('AP00005', 2, 'CL00002', 'PE00007', '2024-12-29 00:16:33'),
+('AP00006', 4, 'CL00003', 'PE00006', '2024-12-29 01:01:35');
 
 -- --------------------------------------------------------
 
@@ -64,7 +67,9 @@ CREATE TABLE `clinic` (
 INSERT INTO `clinic` (`clinic_id`, `clinic_date`, `period`, `department_id`, `location`, `doctor_id`) VALUES
 ('CL00001', '2024-12-20', 'morning', 'DE00001', '第一醫療大樓 101 室', 'PE00001'),
 ('CL00002', '2024-12-25', 'evening', 'DE00005', '第二醫療大樓 610 室', 'PE00001'),
-('CL00003', '2024-12-26', 'afternoon', 'DE00006', '第三醫療大樓 315 室', 'PE00001');
+('CL00003', '2024-12-26', 'afternoon', 'DE00006', '第三醫療大樓 315 室', 'PE00001'),
+('CL00004', '2025-01-16', 'evening', 'DE00004', '第一醫療大樓 709 室', 'PE00003'),
+('CL00005', '2025-10-10', 'afternoon', 'DE00004', '第三醫療大樓 1146 室', 'PE00003');
 
 -- --------------------------------------------------------
 
@@ -109,7 +114,8 @@ INSERT INTO `medical_certificate` (`certificate_id`, `record_id`, `prescription`
 ('CE00001', 'RE00001', '近視\r\n使用散瞳劑治療'),
 ('CE00002', 'RE00001', '老花眼\r\n需使用眼鏡'),
 ('CE00003', 'RE00001', '乾眼症\r\n開立人工淚液'),
-('CE00005', 'RE00002', '針眼\r\n開立 Chloramphenicol Eye Drops');
+('CE00005', 'RE00002', '針眼\r\n開立 Chloramphenicol Eye Drops'),
+('CE00006', 'RE00003', '急性支氣管炎\r\n開立 IBU TABLET \"ROOT\"');
 
 -- --------------------------------------------------------
 
@@ -129,7 +135,8 @@ CREATE TABLE `medical_record` (
 
 INSERT INTO `medical_record` (`record_id`, `patient_id`, `clinic_id`) VALUES
 ('RE00001', 'PE00005', 'CL00001'),
-('RE00002', 'PE00007', 'CL00001');
+('RE00002', 'PE00007', 'CL00001'),
+('RE00003', 'PE00005', 'CL00003');
 
 -- --------------------------------------------------------
 
@@ -169,10 +176,10 @@ CREATE TABLE `person` (
   `first_name` varchar(20) NOT NULL,
   `id_card` char(10) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
+  `phone` varchar(20) NOT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `gender` enum('M','F') DEFAULT NULL,
-  `birthday` date DEFAULT NULL
+  `gender` enum('M','F') NOT NULL,
+  `birthday` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -183,13 +190,13 @@ INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `passwo
 ('PE00001', '陳', '大文', 'A123456789', '$2y$10$lXEtoT4LMtJHBIm/sFK7B.MTZ5qK35QI0j2P/9dQComc1cA/SvuRa', '0912345678', '台北市信義區信義路五段7號', 'M', '1990-03-15'),
 ('PE00002', '林', '小美', 'B234567890', '$2y$10$Cn9DtEFLP2GLtC90.XKP.OtOpc8c/Rpt4.QVYdDwkOV51EsNQ/bJW', '0923456789', '台中市西屯區台灣大道三段99號', 'F', '1995-07-22'),
 ('PE00003', '王', '建國', 'C187654321', '$2y$10$nRa8iy9WL8G9HFdqtgSssOOqLNRL0rH.GPANGcS8REzJyeJPdw16W', '0934567890', NULL, 'M', '1988-12-01'),
-('PE00004', '張', '淑華', 'D198765432', '$2y$10$nlO7iQupd2aok54CpzHBUOkUjv0HlrjXVfUPRdHntcq.i3wdoXv12', NULL, '高雄市前金區中正路100號', 'F', '1992-05-30'),
-('PE00005', '李', '志明', 'E165432109', '$2y$10$0mciJZ/XmwOWtJTanGOdwuOn3t7H1OApJcKsYcDgfYKlLlI19cP06', '0956789012', NULL, 'M', NULL),
-('PE00006', '黃', '雅琪', 'F143219876', '$2y$10$IvoGOLqx8VtSbcFUbvyKyO4wTptDRiw4j1plVNUr41jLKa5m55j.u', NULL, NULL, 'F', '1997-09-18'),
-('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978901234', '新竹市東區光復路二段101號', NULL, '1993-11-25'),
+('PE00004', '張', '淑華', 'D198765432', '$2y$10$nlO7iQupd2aok54CpzHBUOkUjv0HlrjXVfUPRdHntcq.i3wdoXv12', '0958125498', '高雄市前金區中正路100號', 'F', '1992-05-30'),
+('PE00005', '李', '志明', 'E165432109', '$2y$10$0mciJZ/XmwOWtJTanGOdwuOn3t7H1OApJcKsYcDgfYKlLlI19cP06', '0956789012', '東京都世田谷区北沢2-6-10仙田ビルB1', 'M', '2000-01-01'),
+('PE00006', '黃', '雅琪', 'F143219876', '$2y$10$IvoGOLqx8VtSbcFUbvyKyO4wTptDRiw4j1plVNUr41jLKa5m55j.u', '0965478123', NULL, 'F', '1997-09-18'),
+('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978901234', '新竹市東區光復路二段101號', 'M', '1993-11-25'),
 ('PE00008', '吳', '家豪', 'H176543210', '$2y$10$2xicrxjZO0Sg4hQPrbEYoO6kG3qN9QxTRJ06KUtELz6Zd8td/5a2G', '0989012345', '桃園市中壢區中大路300號', 'M', '1991-08-14'),
-('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', NULL, NULL, 'F', '1994-04-27'),
-('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', NULL, NULL),
+('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', '0912345987', NULL, 'F', '1994-04-27'),
+('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', 'M', '2015-10-24'),
 ('PE00011', '王', '大明', 'L123456789', '$2y$10$hG/E/HGIVVPFjJRQbotYDeeRR0cAkpPhXwGrRmbK/hfX5ESzOqn3i', '0912345678', '', 'M', '1900-01-01');
 
 -- --------------------------------------------------------

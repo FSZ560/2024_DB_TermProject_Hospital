@@ -26,14 +26,23 @@ try {
 
     // 查詢該診次所有預約的病人
     $stmt = $db->prepare("
-        SELECT a.appointment_id, a.sequence_number, 
+        WITH patient_info AS (
+            SELECT p.person_id, p.last_name, p.first_name, p.gender, p.birthday,
+                   pt.height, pt.weight
+            FROM person p
+            JOIN patient pt ON p.person_id = pt.person_id
+        ),
+        appointment_list AS (
+            SELECT appointment_id, sequence_number, patient_id, clinic_id
+            FROM appointment
+        )
+        SELECT a.appointment_id, a.sequence_number,
                p.person_id, p.last_name, p.first_name, p.gender, p.birthday,
-               pt.height, pt.weight
-        FROM appointment a
-        JOIN patient pt ON a.patient_id = pt.person_id
-        JOIN person p ON pt.person_id = p.person_id
+               p.height, p.weight
+        FROM appointment_list a
+        JOIN patient_info p ON a.patient_id = p.person_id
         WHERE a.clinic_id = ?
-        ORDER BY a.sequence_number
+        ORDER BY a.sequence_number;
     ");
     $stmt->execute([$clinic_id]);
     $patients = $stmt->fetchAll();

@@ -17,8 +17,6 @@ $(document).ready(function() {
 
     $('th').click(function() {
         var index = $(this).index();
-
-        
         var rows = $('tbody tr').toArray();
         var isAscending = $(this).hasClass('descending');
         
@@ -29,33 +27,34 @@ $(document).ready(function() {
         if (index !== $('th').length - 1) {
             var icon = isAscending ? '<i class="bx bx-sort-down"></i>' : '<i class="bx bx-sort-up"></i>';
             $(this).append('<span class="sort-icon">' + icon + '</span>'); // 在當前點擊的表頭中顯示排序圖示
-        }
-        // 排序表格
-        rows.sort(function(a, b) {
-            var cellA = $(a).children('td').eq(index).text();
-            var cellB = $(b).children('td').eq(index).text();
-            if ($.isNumeric(cellA) && $.isNumeric(cellB)) {
-                return cellA - cellB;
+        
+            // 排序表格
+            rows.sort(function(a, b) {
+                var cellA = $(a).children('td').eq(index).text();
+                var cellB = $(b).children('td').eq(index).text();
+                if ($.isNumeric(cellA) && $.isNumeric(cellB)) {
+                    return cellA - cellB;
+                }
+                return cellA.localeCompare(cellB);
+            });
+
+            // 如果是升冪，反轉行數據
+            if (isAscending) {
+                rows.reverse();
             }
-            return cellA.localeCompare(cellB);
-        });
 
-        // 如果是升冪，反轉行數據
-        if (isAscending) {
-            rows.reverse();
+            // 移除所有的 ascending 和 descending 樣式
+            $('th').removeClass('ascending descending');
+
+            // 設置當前列的排序方向樣式
+            if (isAscending) {
+                $(this).addClass('ascending');
+            } else {
+                $(this).addClass('descending');
+            }
+
+            // 更新表格內容
+            $('tbody').append(rows);
         }
-
-        // 移除所有的 ascending 和 descending 樣式
-        $('th').removeClass('ascending descending');
-
-        // 設置當前列的排序方向樣式
-        if (isAscending) {
-            $(this).addClass('ascending');
-        } else {
-            $(this).addClass('descending');
-        }
-
-        // 更新表格內容
-        $('tbody').append(rows);
     });
 });

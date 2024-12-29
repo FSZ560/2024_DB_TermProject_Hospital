@@ -134,3 +134,16 @@ tr:hover {
 .list-btn:hover {
     background-color: #1976D2;
 }
+
+.clinic-summary {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.clinic-summary p {
+    margin: 0;
+    color: #495057;
+    font-size: 1.1em;
+}

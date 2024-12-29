@@ -8,6 +8,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'doctor') {
 }
 
 try {
+    // 查詢醫生總診次數
+    $total_clinics_stmt = $db->prepare("SELECT f_get_doctor_clinic_count(?) as total_clinics");
+    $total_clinics_stmt->execute([$_SESSION['user_id']]);
+    $total_clinics = $total_clinics_stmt->fetch()['total_clinics'];
+
     $stmt = $db->prepare("
         SELECT c.clinic_id, c.clinic_date, c.period, c.location, 
                d.department_name, 
@@ -55,6 +60,10 @@ function getPeriodText($period) {
 <body>
     <div class="container">
         <h1>門診清單</h1>
+        
+        <div class="clinic-summary">
+            <p>您總共有 <?php echo htmlspecialchars($total_clinics); ?> 個診次</p>
+        </div>
         
         <?php if (isset($error_message)): ?>
             <div class="error"><?php echo htmlspecialchars($error_message); ?></div>

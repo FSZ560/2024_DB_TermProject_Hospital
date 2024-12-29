@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-29 14:54:58
+-- 產生時間： 2024-12-29 16:09:25
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -20,6 +20,22 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `db_team_11_project`
 --
+
+DELIMITER $$
+--
+-- 函式
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `f_get_doctor_clinic_count` (`in_doctor_id` CHAR(7)) RETURNS INT(11) DETERMINISTIC BEGIN
+    DECLARE total INT;
+    
+    SELECT COUNT(*) INTO total
+    FROM clinic 
+    WHERE doctor_id = in_doctor_id;
+    
+    RETURN total;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 

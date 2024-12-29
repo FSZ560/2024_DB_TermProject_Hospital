@@ -50,6 +50,9 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>掛號管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/appointment_manage.css">
 </head>
 <body>
@@ -63,7 +66,7 @@ function getPeriodText($period) {
         <?php if (empty($appointments)): ?>
             <p>目前沒有掛號記錄。</p>
         <?php else: ?>
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>掛號編號</th>
@@ -98,5 +101,6 @@ function getPeriodText($period) {
 
         <a href="patient_dashboard.php" class="back-btn">返回</a>
     </div>
+    <script src="./script/appointment_manage.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

@@ -98,6 +98,9 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>門診掛號</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/appointment_book.css">
 </head>
 <body>
@@ -115,7 +118,7 @@ function getPeriodText($period) {
         <?php if (empty($clinics)): ?>
             <p>目前沒有可掛號的門診</p>
         <?php else: ?>
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>門診日期</th>
@@ -169,5 +172,6 @@ function getPeriodText($period) {
             });
         });
     </script>
+    <script src="./script/appointment_book.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

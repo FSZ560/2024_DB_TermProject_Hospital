@@ -4,38 +4,66 @@ body {
     margin: 20px auto;
     padding: 20px;
 }
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
+
 label {
     display: block;
     margin-bottom: 5px;
 }
+
 input, select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
 button {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
 .submit-btn {
     background-color: #4CAF50;
     color: white;
 }
+
 .back-btn {
     background-color: #666;
     color: white;
     margin-right: 10px;
 }
+
 .error {
     color: red;
     background-color: #ffe6e6;
     padding: 10px;
     border-radius: 4px;
     margin-bottom: 15px;
+}
+
+input.error, select.error {
+    border: 2px solid red !important;
+}
+
+label.required::after {
+    content: "*"; /* 插入星號 */
+    color: red !important;    /* 設定紅色 */
 }

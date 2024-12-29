@@ -75,27 +75,27 @@ function generatePersonId() {
 
     <form method="POST" action="" onsubmit="return validateForm()">
         <div class="form-group">
-            <label for="last_name">姓氏：</label>
-            <input type="text" id="last_name" name="last_name" required>
+            <label for="last_name" class="required">姓氏：</label>
+            <input type="text" id="last_name" name="last_name">
         </div>
 
         <div class="form-group">
-            <label for="first_name">名字：</label>
-            <input type="text" id="first_name" name="first_name" required>
+            <label for="first_name" class="required">名字：</label>
+            <input type="text" id="first_name" name="first_name">
         </div>
 
         <div class="form-group">
-            <label for="id_card">身分證字號：</label>
-            <input type="text" id="id_card" name="id_card" required>
+            <label for="id_card" class="required">身分證字號：</label>
+            <input type="text" id="id_card" name="id_card">
         </div>
 
         <div class="form-group">
-            <label for="password">密碼：</label>
-            <input type="password" id="password" name="password" required>
+            <label for="password" class="required">密碼：</label>
+            <input type="password" id="password" name="password">
         </div>
 
         <div class="form-group">
-            <label for="phone">電話：</label>
+            <label for="phone" class="required">電話：</label>
             <input type="text" id="phone" name="phone">
         </div>
 
@@ -105,7 +105,7 @@ function generatePersonId() {
         </div>
 
         <div class="form-group">
-            <label for="gender">性別：</label>
+            <label for="gender" class="required">性別：</label>
             <select id="gender" name="gender">
                 <option value="M">男</option>
                 <option value="F">女</option>
@@ -113,7 +113,7 @@ function generatePersonId() {
         </div>
 
         <div class="form-group">
-            <label for="birthday">生日：</label>
+            <label for="birthday" class="required">生日：</label>
             <input type="date" id="birthday" name="birthday">
         </div>
 
@@ -132,5 +132,6 @@ function generatePersonId() {
             <button type="submit" class="submit-btn">註冊</button>
         </div>
     </form>
+    <script src="./script/patient_register.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

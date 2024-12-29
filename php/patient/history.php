@@ -51,6 +51,8 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>看診紀錄</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="asset/history.css">
 </head>
 <body>
@@ -64,7 +66,7 @@ function getPeriodText($period) {
         <?php if (empty($records)): ?>
             <div class="empty-message">目前沒有看診紀錄</div>
         <?php else: ?>
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>看診日期</th>
@@ -95,5 +97,6 @@ function getPeriodText($period) {
 
         <a href="patient_dashboard.php" class="back-btn">返回</a>
     </div>
+    <script src="./script/history.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

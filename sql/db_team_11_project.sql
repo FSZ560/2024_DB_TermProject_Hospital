@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2024-12-29 10:26:27
+-- 產生時間： 2024-12-29 14:43:34
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -187,17 +187,49 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `last_name`, `first_name`, `id_card`, `password`, `phone`, `address`, `gender`, `birthday`) VALUES
-('PE00001', '陳', '大文', 'A123456789', '$2y$10$lXEtoT4LMtJHBIm/sFK7B.MTZ5qK35QI0j2P/9dQComc1cA/SvuRa', '0912345678', '台北市信義區信義路五段7號', 'M', '1990-03-15'),
-('PE00002', '林', '小美', 'B234567890', '$2y$10$Cn9DtEFLP2GLtC90.XKP.OtOpc8c/Rpt4.QVYdDwkOV51EsNQ/bJW', '0923456789', '台中市西屯區台灣大道三段99號', 'F', '1995-07-22'),
-('PE00003', '王', '建國', 'C187654321', '$2y$10$nRa8iy9WL8G9HFdqtgSssOOqLNRL0rH.GPANGcS8REzJyeJPdw16W', '0934567890', NULL, 'M', '1988-12-01'),
-('PE00004', '張', '淑華', 'D198765432', '$2y$10$nlO7iQupd2aok54CpzHBUOkUjv0HlrjXVfUPRdHntcq.i3wdoXv12', '0958125498', '高雄市前金區中正路100號', 'F', '1992-05-30'),
-('PE00005', '李', '志明', 'E165432109', '$2y$10$0mciJZ/XmwOWtJTanGOdwuOn3t7H1OApJcKsYcDgfYKlLlI19cP06', '0956789012', '東京都世田谷区北沢2-6-10仙田ビルB1', 'M', '2000-01-01'),
-('PE00006', '黃', '雅琪', 'F143219876', '$2y$10$IvoGOLqx8VtSbcFUbvyKyO4wTptDRiw4j1plVNUr41jLKa5m55j.u', '0965478123', NULL, 'F', '1997-09-18'),
-('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978901234', '新竹市東區光復路二段101號', 'M', '1993-11-25'),
-('PE00008', '吳', '家豪', 'H176543210', '$2y$10$2xicrxjZO0Sg4hQPrbEYoO6kG3qN9QxTRJ06KUtELz6Zd8td/5a2G', '0989012345', '桃園市中壢區中大路300號', 'M', '1991-08-14'),
-('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', '0912345987', NULL, 'F', '1994-04-27'),
-('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967890123', '台南市東區大學路1號', 'M', '2015-10-24'),
-('PE00011', '王', '大明', 'L123456789', '$2y$10$hG/E/HGIVVPFjJRQbotYDeeRR0cAkpPhXwGrRmbK/hfX5ESzOqn3i', '0912345678', '', 'M', '1900-01-01');
+('PE00001', '陳', '大文', 'A123456789', '$2y$10$lXEtoT4LMtJHBIm/sFK7B.MTZ5qK35QI0j2P/9dQComc1cA/SvuRa', '0912-345-678', '台北市信義區信義路五段7號', 'M', '1990-03-15'),
+('PE00002', '林', '小美', 'B234567890', '$2y$10$Cn9DtEFLP2GLtC90.XKP.OtOpc8c/Rpt4.QVYdDwkOV51EsNQ/bJW', '0923-456-789', '台中市西屯區台灣大道三段99號', 'F', '1995-07-22'),
+('PE00003', '王', '建國', 'C187654321', '$2y$10$nRa8iy9WL8G9HFdqtgSssOOqLNRL0rH.GPANGcS8REzJyeJPdw16W', '0934-567-890', NULL, 'M', '1988-12-01'),
+('PE00004', '張', '淑華', 'D198765432', '$2y$10$nlO7iQupd2aok54CpzHBUOkUjv0HlrjXVfUPRdHntcq.i3wdoXv12', '0958-125-498', '高雄市前金區中正路100號', 'F', '1992-05-30'),
+('PE00005', '李', '志明', 'E165432109', '$2y$10$0mciJZ/XmwOWtJTanGOdwuOn3t7H1OApJcKsYcDgfYKlLlI19cP06', '0912-987-654', '東京都世田谷区北沢2-6-10仙田ビルB1', 'M', '2000-01-01'),
+('PE00006', '黃', '雅琪', 'F143219876', '$2y$10$IvoGOLqx8VtSbcFUbvyKyO4wTptDRiw4j1plVNUr41jLKa5m55j.u', '0965-478-123', NULL, 'F', '1997-09-18'),
+('PE00007', '劉', '俊傑', 'G154326789', '$2y$10$GlgdN9cTiwuymYc48ewjg.hOrU2c3c/tubBp15yOPpz3LrNEIqb5S', '0978-901-234', '新竹市東區光復路二段101號', 'M', '1993-11-25'),
+('PE00008', '吳', '家豪', 'H176543210', '$2y$10$2xicrxjZO0Sg4hQPrbEYoO6kG3qN9QxTRJ06KUtELz6Zd8td/5a2G', '0989-012-345', '桃園市中壢區中大路300號', 'M', '1991-08-14'),
+('PE00009', '周', '美玲', 'I187654321', '$2y$10$Y.CVeYIghgfQOpJ3xfpSKesrxYFZ2sBery53A/HxkB7MRkr1w69u.', '0912-345-987', NULL, 'F', '1994-04-27'),
+('PE00010', '謝', '明宏', 'J198765432', '$2y$10$wNw6zPR2ypR3jACsnt0k5Oit/WCrTVK2fltxWVMbqD7hs87jOi4Ju', '0967-890-123', '台南市東區大學路1號', 'M', '2015-10-24'),
+('PE00011', '王', '大明', 'L123456789', '$2y$10$hG/E/HGIVVPFjJRQbotYDeeRR0cAkpPhXwGrRmbK/hfX5ESzOqn3i', '0912-345-678', '', 'M', '1900-01-01');
+
+--
+-- 觸發器 `person`
+--
+DELIMITER $$
+CREATE TRIGGER `phone_insert_tri` BEFORE INSERT ON `person` FOR EACH ROW BEGIN
+    IF NEW.phone REGEXP '^09[0-9]{8}$' THEN
+        SET NEW.phone = CONCAT(
+            SUBSTRING(NEW.phone, 1, 4),
+            '-',
+            SUBSTRING(NEW.phone, 5, 3),
+            '-',
+            SUBSTRING(NEW.phone, 8)
+        );
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `phone_update_tri` BEFORE UPDATE ON `person` FOR EACH ROW BEGIN
+    IF NEW.phone REGEXP '^09[0-9]{8}$' THEN
+        SET NEW.phone = CONCAT(
+            SUBSTRING(NEW.phone, 1, 4),
+            '-',
+            SUBSTRING(NEW.phone, 5, 3),
+            '-',
+            SUBSTRING(NEW.phone, 8)
+        );
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 

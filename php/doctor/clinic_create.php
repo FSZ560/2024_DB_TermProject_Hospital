@@ -59,77 +59,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>新增門診</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #ff9900;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .button-group {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .submit-btn {
-            background-color: #ff9900;
-            color: white;
-        }
-
-        .back-btn {
-            background-color: #666;
-            color: white;
-        }
-
-        .error {
-            color: red;
-            background-color: #ffe6e6;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="./asset/clinic_create.css">  <!-- 引入外部 CSS 檔案 -->
 </head>
 <body>
     <div class="container">

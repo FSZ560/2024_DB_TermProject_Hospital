@@ -14,13 +14,17 @@ $(document).ready(function() {
 
     $('th').click(function() {
         var index = $(this).index();
-        var rows = $('tbody tr').toArray();
-        var isAscending = $(this).hasClass('descending');
         
         // 先移除所有表頭的圖示
         $('th').find('.sort-icon').remove();
 
-        // 根據排序方向添加相應的圖示
+        if (index == $('th').length - 1) {
+            return ;
+        }
+
+        var rows = $('tbody tr').toArray();
+        var isAscending = $(this).hasClass('descending');
+
         // 根據排序方向添加相應的圖示
         if (index !== $('th').length - 1) {
             var icon = isAscending ? '<i class="bx bx-sort-down"></i>' : '<i class="bx bx-sort-up"></i>';

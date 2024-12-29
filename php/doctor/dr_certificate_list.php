@@ -57,101 +57,10 @@ function getPeriodText($period) {
 <head>
     <meta charset="UTF-8">
     <title>診斷書清單</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            color: #ff9900;
-            margin-bottom: 20px;
-        }
-
-        .record-info {
-            background-color: #fff3e0;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .patient-info {
-            margin-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #ff9900;
-            color: white;
-        }
-
-        .empty-message {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-
-        .back-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #666;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-
-        .error-message {
-            color: red;
-            background-color: #ffe6e6;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-
-        .prescription-content {
-            white-space: pre-wrap;
-            font-family: 'Consolas', monospace;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
-            color: #212529;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 10px 0;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .prescription-content:hover {
-            background-color: #fff;
-            border-color: #ff9900;
-            transition: all 0.3s ease;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./asset/dr_certificate_list.css">  <!-- 引入外部 CSS 檔案 -->
 </head>
 <body>
     <div class="container">
@@ -185,7 +94,7 @@ function getPeriodText($period) {
             <?php if (empty($certificates)): ?>
                 <div class="empty-message">目前沒有診斷書記錄</div>
             <?php else: ?>
-                <table>
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>診斷書編號</th>
@@ -212,5 +121,6 @@ function getPeriodText($period) {
             <a href="clinic_list.php" class="back-btn">返回診次列表</a>
         <?php endif; ?>
     </div>
+    <script src="./script/dr_certificate_list.js"></script>  <!-- 引入外部 JavaScript 檔案 -->
 </body>
 </html>

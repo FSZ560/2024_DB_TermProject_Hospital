@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // 預設
     $('th').each(function() {
-        $(this).addClass('descending');  // 預設為降冪
+        //$(this).addClass('descending');  // 預設為降冪
     });
     
     // 自動顯示第一列的 down 圖示
@@ -17,8 +17,6 @@ $(document).ready(function() {
 
     $('th').click(function() {
         var index = $(this).index();
-
-        
         var rows = $('tbody tr').toArray();
         var isAscending = $(this).hasClass('descending');
         

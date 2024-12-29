@@ -1,12 +1,15 @@
 $(document).ready(function() {
     // 預設
     $('th').each(function() {
-        //$(this).addClass('descending');  // 預設為降冪
+        $(this).addClass('descending');  // 預設為降冪
     });
     
     // 自動顯示第一列的 down 圖示
     var firstColumn = $('th').eq(0); // 第一列
-    firstColumn.addClass('descending'); // 設置為降冪排序
+    if (firstColumn.index() !== $('th').length - 1) {  // 忽略最後一欄
+        firstColumn.addClass('descending'); // 設置為降冪排序
+        firstColumn.append('<span class="sort-icon"><i class="bx bx-sort-down"></i></span>'); // 顯示圖示
+    }
     firstColumn.append('<span class="sort-icon"><i class="bx bx-sort-down"></i></span>'); // 顯示圖示
 
     // 點擊排序功能
@@ -14,6 +17,8 @@ $(document).ready(function() {
 
     $('th').click(function() {
         var index = $(this).index();
+
+        
         var rows = $('tbody tr').toArray();
         var isAscending = $(this).hasClass('descending');
         

@@ -67,3 +67,12 @@ button {
     border-radius: 4px;
     margin-bottom: 15px;
 }
+
+input.error, select.error {
+    border: 2px solid red !important;
+}
+
+label.required::after {
+    content: "*"; /* 插入星號 */
+    color: red !important;    /* 設定紅色 */
+}

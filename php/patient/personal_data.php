@@ -63,18 +63,18 @@ try {
 
         <form method="POST" action="">
             <div class="form-group">
-                <label for="last_name">姓氏：</label>
+                <label for="last_name" class="required">姓氏：</label>
                 <input type="text" id="last_name" value="<?php echo htmlspecialchars($patient['last_name']); ?>" disabled>
             </div>
 
             <div class="form-group">
-                <label for="first_name">名字：</label>
+                <label for="first_name" class="required">名字：</label>
                 <input type="text" id="first_name" value="<?php echo htmlspecialchars($patient['first_name']); ?>" disabled>
             </div>
 
             <div class="form-group">
-                <label for="phone">電話：</label>
-                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($patient['phone']); ?>" required>
+                <label for="phone" class="required">電話：</label>
+                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($patient['phone']); ?>">
             </div>
 
             <div class="form-group">
@@ -83,7 +83,7 @@ try {
             </div>
 
             <div class="form-group">
-                <label for="gender">性別：</label>
+                <label for="gender" class="required">性別：</label>
                 <select id="gender" name="gender">
                     <option value="M" <?php echo $patient['gender'] === 'M' ? 'selected' : ''; ?>>男性</option>
                     <option value="F" <?php echo $patient['gender'] === 'F' ? 'selected' : ''; ?>>女性</option>
@@ -91,7 +91,7 @@ try {
             </div>
 
             <div class="form-group">
-                <label for="birthday">生日：</label>
+                <label for="birthday" class="required">生日：</label>
                 <input type="date" id="birthday" name="birthday" value="<?php echo htmlspecialchars($patient['birthday']); ?>">
             </div>
 
@@ -111,5 +111,31 @@ try {
             </div>
         </form>
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            let isValid = true;
+            const fields = ['phone', 'gender', 'birthday'];
+            let firstInvalidField = null;
+
+            fields.forEach(id => {
+                const input = document.getElementById(id);
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('error');
+                    if (!firstInvalidField) {
+                        firstInvalidField = input;
+                    }
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+                firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                alert('請填寫所有必填欄位！');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -52,6 +52,10 @@ CREATE TABLE `patient` (
   CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ height
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ weight
+}
 
 #### 3.staff table
 
@@ -66,6 +70,10 @@ CREATE TABLE `staff` (
   CONSTRAINT `staff_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ department_id
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ salary
+}
 
 #### 4. department table
 
@@ -76,6 +84,10 @@ CREATE TABLE `department` (
   PRIMARY KEY (`department_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  department_id $\rightarrow$ department_name
+  &nbsp;&nbsp;&nbsp;&nbsp;  department_name $\rightarrow$ department_id
+}
 
 #### 5. clinic table
 
@@ -94,6 +106,13 @@ CREATE TABLE `clinic` (
   CONSTRAINT `clinic_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `staff` (`person_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ clinic_date
+  &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ period
+  &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ department_id
+  &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ location
+  &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ doctor_id
+}
 
 #### 6. appointment table
 
@@ -111,6 +130,12 @@ CREATE TABLE `appointment` (
   CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`person_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  appointment_id $\rightarrow$ sequence_number 
+  &nbsp;&nbsp;&nbsp;&nbsp;  appointment_id $\rightarrow$ clinic_id 
+  &nbsp;&nbsp;&nbsp;&nbsp;  appointment_id $\rightarrow$ patient_id 
+  &nbsp;&nbsp;&nbsp;&nbsp;  appointment_id $\rightarrow$ register_time 
+}
 
 #### 7. medical_record table
 
@@ -126,6 +151,10 @@ CREATE TABLE `medical_record` (
   CONSTRAINT `medical_record_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinic` (`clinic_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  record_id $\rightarrow$ patient_id 
+  &nbsp;&nbsp;&nbsp;&nbsp;  record_id $\rightarrow$ clinic_id 
+}
 
 #### 8. medical_certificate table
 
@@ -139,5 +168,9 @@ CREATE TABLE `medical_certificate` (
   CONSTRAINT `medical_certificate_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `medical_record` (`record_id`)
 )
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  certificate_id $\rightarrow$ record_id 
+  &nbsp;&nbsp;&nbsp;&nbsp;  certificate_id $\rightarrow$ prescription 
+}
 
 ### 四、 符合正規化和 ER 圖的表格定義

@@ -41,6 +41,12 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ birthday
 }
 
+因為`person_id`代表一個特定的人，可決定唯一的`last_name`、`first_name`、`id_card`、`password`、`phone`、`address`、`gender`、`birthday`，且`person_id`是一個candidate key
+
+`id_card`也能推到所有其他的任何屬性，且`id_card`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
+
 #### 2. patient table
 
 ```sql
@@ -56,6 +62,10 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ height
   &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ weight
 }
+
+因為`patient`是`person`的子實體集，因此其 PK 就是 `person` 的 PK `person_id`，且`person_id` 代表一個特定的人，可決定唯一的`height`、`weight`，且`person_id`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
 
 #### 3.staff table
 
@@ -75,6 +85,10 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ salary
 }
 
+因為`staff`是`person`的子實體集，因此其 PK 就是 `person` 的 PK `person_id`，且`person_id` 代表一個特定的人，可決定唯一的`height`、`weight`，且`person_id`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
+
 #### 4. department table
 
 ```sql
@@ -88,6 +102,11 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  department_id $\rightarrow$ department_name
   &nbsp;&nbsp;&nbsp;&nbsp;  department_name $\rightarrow$ department_id
 }
+
+因為`department_id`代表一個特定的部門，可決定唯一的`department_name`，
+又`department_name`也能代表一個特定的部門，可決定唯一的`department_id`，且`department_id`、`department_name`都是candidate key
+
+$→$ 此表格符合3NF和BCNF。
 
 #### 5. clinic table
 
@@ -114,6 +133,10 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  clinic_id $\rightarrow$ doctor_id
 }
 
+因為`clinic_id`代表一個特定的門診，可決定唯一的`clinic_date`、`period`、`department_id`、`location`、`doctor_id`，且`clinic_id`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
+
 #### 6. appointment table
 
 ```sql
@@ -137,6 +160,10 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  appointment_id $\rightarrow$ register_time 
 }
 
+因為`appointment_id`代表一個特定的掛號申請，可決定唯一的`sequence_number`、`clinic_id`、`patient_id`、`register_time`，且`appointment_id`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
+
 #### 7. medical_record table
 
 ```sql
@@ -156,6 +183,10 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  record_id $\rightarrow$ clinic_id 
 }
 
+因為`record_id`代表一個特定的掛號申請，可決定唯一的`patient_id`、`clinic_id`，且`record_id`是一個candidate key
+
+$→$ 此表格符合3NF和BCNF。
+
 #### 8. medical_certificate table
 
 ```sql
@@ -173,6 +204,8 @@ F = {
   &nbsp;&nbsp;&nbsp;&nbsp;  certificate_id $\rightarrow$ prescription 
 }
 
-### 四、 符合正規化和 ER 圖的表格定義
+因為`certificate_id`代表一個特定的掛號申請，可決定唯一的`patient_id`、`clinic_id`，且`certificate_id`是一個candidate key
 
-所有表格維持原定義
+$→$ 此表格符合3NF和BCNF。
+
+### 四、 符合正規化和 ER 圖的表格定義

@@ -24,6 +24,22 @@ CREATE TABLE `person` (
   PRIMARY KEY (`person_id`)
 ) 
 ```
+F = {
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ last_name, first_name
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ id_card 
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ password
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ phone
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ address
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ gender
+  &nbsp;&nbsp;&nbsp;&nbsp;  person_id $\rightarrow$ birthday
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ last_name, first_name
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ person_id
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ password
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ phone
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ address
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ gender
+  &nbsp;&nbsp;&nbsp;&nbsp;  id_card $\rightarrow$ birthday
+}
 
 #### 2. patient table
 
